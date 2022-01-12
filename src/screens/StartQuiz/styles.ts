@@ -14,27 +14,6 @@ export const Title = styled.Text`
   margin-bottom: 15px;
 `;
 
-export const WrapperHearts = styled.View`
-  flex-direction: row;
-  align-self: center;
-  justify-content: space-between;
-  width: 40%;
-`;
-
-export const Heart = styled.Image`
-  height: 30px;
-  width: 30px;
-`;
-
-export const WrapperOptions = styled.View`
-  flex-direction: row;
-  align-self: center;
-  justify-content: space-between;
-  border-width: 1px;
-  width: 100%;
-  height: 40px;
-`;
-
 export const TouchableOption = styled.TouchableOpacity`
   border-width: 1px;
   align-self: flex-end;

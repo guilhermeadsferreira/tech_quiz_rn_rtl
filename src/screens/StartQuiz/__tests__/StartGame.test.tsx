@@ -1,6 +1,5 @@
 import { Alert } from "react-native";
 import { render, fireEvent } from "@testing-library/react-native";
-import StartQuiz from "../index";
 import { MainContext } from "../../../contexts/MainContext";
 import { NavigationContainer } from "@react-navigation/native";
 import MyStack from "../../../routes/MainStack";
@@ -47,9 +46,6 @@ describe("StartQuiz", () => {
     await fireEvent.press(getSelectOfCategory[1]);
     await fireEvent.press(getFirstCategory[1]);
 
-    // const selectedCategory = await findAllByTestId("touchable-select-text");
-    // expect(selectedCategory[1].props.children).toEqual("Teste");
-
     const button = getByText("Start Game");
     fireEvent.press(button);
 
@@ -70,8 +66,6 @@ describe("StartQuiz", () => {
     await fireEvent.press(touchableSelectDifficulty[2]);
     await fireEvent.press(getFirstDifficulty[2]);
 
-    // const selectedCategory = await findAllByTestId("touchable-select-text");
-    // expect(selectedCategory[2].props.children).toEqual("Easy");
     const button = getByText("Start Game");
     fireEvent.press(button);
 
@@ -79,7 +73,11 @@ describe("StartQuiz", () => {
   });
 
   it("Should setUrlQuiz all inputs filled", async () => {
-    const { findAllByTestId, getByText } = render(<FakeContext />);
+    const setUrlQuiz = jest.fn();
+
+    const { findAllByTestId, getByText } = render(
+      <FakeContext setUrlQuiz={setUrlQuiz} />
+    );
 
     const getAllSelects = await findAllByTestId("touchable-select-option");
 
@@ -98,5 +96,8 @@ describe("StartQuiz", () => {
     fireEvent.press(button);
 
     expect(Alert.alert).not.toHaveBeenCalledWith(errorMessage);
+    expect(setUrlQuiz).toHaveBeenLastCalledWith(
+      "https://opentdb.com/api.php?amount=10&category=10&difficulty=easy&type=multiple"
+    );
   });
 });

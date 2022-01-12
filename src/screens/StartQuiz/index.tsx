@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { IOption } from "../../api/services/OpenTrivia";
+import { IOption } from "../../services/OpenTrivia/types";
 import SelectOption from "../../components/SelectOption";
+import TouchableOption from "../../components/TouchableOption";
 import {
   BASE_URL,
   arrayNumberOfQuestions,
@@ -12,17 +13,14 @@ import {
 } from "../../config";
 import { MainContext } from "../../contexts/MainContext";
 import { mustMountQuizURL } from "../../utils/mustMountQuizURL";
-import {
-  Container,
-  Title,
-  WrapperHearts,
-  WrapperOptions,
-  Heart,
-  TouchableOption,
-  OptionText,
-} from "./styles";
+import { Container, Title } from "./styles";
+import { APP_PRIMARY_COLOR } from "../../config/theme";
 
-const StartQuiz: React.FC = ({ navigation }) => {
+interface IStartQuiz {
+  navigation?: any;
+}
+
+const StartQuiz: React.FC<IStartQuiz> = ({ navigation }) => {
   const { categories, setUrlQuiz } = useContext(MainContext);
   const [numberOfQuestions, setNumberOfQuestions] = useState<IOption>({
     id: "10",
@@ -32,8 +30,24 @@ const StartQuiz: React.FC = ({ navigation }) => {
   const [difficulty, setDifficulty] = useState<IOption>({} as IOption);
   const [type, setType] = useState<IOption>({} as IOption);
 
+  const handleStartGame = () => {
+    if (!numberOfQuestions.id || !category.id || !difficulty.id || !type.id) {
+      Alert.alert("Preencha todos os campos!");
+      return;
+    }
+
+    let url = BASE_URL;
+    [numberOfQuestions, category, difficulty, type].map((item, index) => {
+      const getQueryParamName = queryParams[index];
+      const queryParam = `${getQueryParamName}=${String(item.id)}`;
+      url = mustMountQuizURL(url, queryParam);
+    });
+    setUrlQuiz(url);
+    navigation.navigate("Quiz");
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#D1E8E4" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: APP_PRIMARY_COLOR }}>
       <Container bounces={false}>
         <Title>Tech Quiz</Title>
         <SelectOption
@@ -63,32 +77,7 @@ const StartQuiz: React.FC = ({ navigation }) => {
           value={type}
           setValue={setType}
         />
-        <TouchableOption
-          onPress={() => {
-            if (
-              !numberOfQuestions.id ||
-              !category.id ||
-              !difficulty.id ||
-              !type.id
-            ) {
-              Alert.alert("Preencha todos os campos!");
-              return;
-            }
-
-            let url = BASE_URL;
-            [numberOfQuestions, category, difficulty, type].map(
-              (item, index) => {
-                const getQueryParamName = queryParams[index];
-                const queryParam = `${getQueryParamName}=${String(item.id)}`;
-                url = mustMountQuizURL(url, queryParam);
-              }
-            );
-            setUrlQuiz(url);
-            navigation.navigate("Quiz");
-          }}
-        >
-          <OptionText>Start Game</OptionText>
-        </TouchableOption>
+        <TouchableOption onPress={handleStartGame} label="Start Game" />
       </Container>
     </SafeAreaView>
   );

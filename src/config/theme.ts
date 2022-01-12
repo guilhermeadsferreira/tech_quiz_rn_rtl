@@ -1,0 +1,3 @@
+const APP_PRIMARY_COLOR = "#34495e";
+
+export { APP_PRIMARY_COLOR };

@@ -1,4 +1,4 @@
-const maxLives = 4;
+const maxLives = 3;
 
 const maxQuestions = 10;
 
@@ -38,22 +38,6 @@ const arrayTypes = [
 ];
 
 const queryParams = ["amount", "category", "difficulty", "type"];
-
-// import { maxLives } from "../../config";
-// const teste = Array(maxLives)
-//   .fill("")
-//   .map((_, index) => index + 1);
-
-{
-  /* <WrapperHearts>
-        {teste.map((_, index) => (
-          <Heart
-            source={require("../../assets/heartFull.png")}
-            key={`index-${index}`}
-          />
-        ))}
-      </WrapperHearts> */
-}
 
 export {
   maxLives,

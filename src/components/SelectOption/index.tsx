@@ -1,6 +1,6 @@
 import React from "react";
-import { Animated } from "react-native";
-import { IOption } from "../../api/services/OpenTrivia";
+import { Animated, Easing } from "react-native";
+import { IOption } from "../../services/OpenTrivia/types";
 import {
   Container,
   Label,

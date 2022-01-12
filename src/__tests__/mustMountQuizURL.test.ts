@@ -1,5 +1,5 @@
-import { BASE_URL } from "../src/config";
-import { mustMountQuizURL } from "../src/utils/mustMountQuizURL";
+import { BASE_URL } from "../config";
+import { mustMountQuizURL } from "../utils/mustMountQuizURL";
 
 describe("mustMountQuizURL", () => {
   const mountedURLWithOneQueryParam = mustMountQuizURL(
