@@ -1,14 +1,19 @@
 import React from "react";
 import { TouchableOpacityProps } from "react-native";
-import { Touchable, OptionText } from "./styles";
+import { Touchable, OptionText, ITouchable } from "./styles";
 
-interface ITouchableOptions extends TouchableOpacityProps {
+interface ITouchableOptions extends TouchableOpacityProps, ITouchable {
   label: string;
 }
 
-const TouchableOption: React.FC<ITouchableOptions> = ({ label, ...props }) => {
+const TouchableOption: React.FC<ITouchableOptions> = ({
+  label,
+  marginTop = 12,
+  marginRight = 12,
+  ...props
+}) => {
   return (
-    <Touchable {...props}>
+    <Touchable marginTop={marginTop} marginRight={marginRight} {...props}>
       <OptionText>{label}</OptionText>
     </Touchable>
   );

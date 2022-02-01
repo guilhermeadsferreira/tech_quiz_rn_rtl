@@ -14,7 +14,7 @@ export const Container = styled(Animated.View)`
 export const Label = styled.Text`
   font-family: ${POPPINS_400};
   font-size: 16px;
-  color: black;
+  color: white;
   padding-left: 2px;
 `;
 
@@ -27,6 +27,7 @@ export const SelectedText = styled.Text`
   flex: 1;
   padding-top: 2.5px;
   padding-left: 10px;
+  color: white;
 `;
 
 export const WrapperOptions = styled.ScrollView``;

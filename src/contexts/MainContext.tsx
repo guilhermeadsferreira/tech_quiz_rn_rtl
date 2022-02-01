@@ -3,6 +3,7 @@ import useQuiz from "../hooks/useQuiz";
 import { IOption } from "../services/OpenTrivia/types";
 import Loading from "../components/Loading";
 import { IQuiz } from "../services/OpenTrivia/types";
+import EndGameModal from "../components/EndGameModal";
 
 interface IMainContext {
   loading: boolean;
@@ -21,6 +22,7 @@ const MainContextProvider: React.FC = ({ children }) => {
       value={{ loading, categories, setUrlQuiz, quizQuestions }}
     >
       <Loading show={loading} />
+      <EndGameModal />
       {children}
     </MainContext.Provider>
   );

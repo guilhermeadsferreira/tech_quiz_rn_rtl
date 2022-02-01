@@ -8,7 +8,7 @@ export const Container = styled.ScrollView`
 export const Title = styled.Text`
   font-family: ${POPPINS_400};
   font-size: 22px;
-  color: black;
+  color: white;
   text-align: center;
   margin-top: 10px;
   margin-bottom: 15px;

@@ -1,11 +1,24 @@
 import styled from "styled-components/native";
 
-export const Touchable = styled.TouchableOpacity`
+export interface ITouchable {
+  marginTop?: number;
+  marginRight?: number;
+}
+
+export const Touchable = styled.TouchableOpacity<ITouchable>`
   border-width: 1px;
+  border-color: white;
+  border-radius: 8px;
+  padding: 4px 10px;
   align-self: flex-end;
-  margin-top: 12px;
-  margin-right: 12px;
   padding-horizontal: 8px;
+
+  ${({ marginTop, marginRight }) => `
+      margin-top: ${marginTop}px;
+      margin-right: ${marginRight}px;
+  `}
 `;
 
-export const OptionText = styled.Text``;
+export const OptionText = styled.Text`
+  color: #ced6e0;
+`;
