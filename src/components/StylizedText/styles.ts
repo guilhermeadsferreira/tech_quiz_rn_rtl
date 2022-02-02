@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { APP_FONTS } from "../../theme";
+import { APP_FONTS } from "../../config/theme/fonts-family";
 
 export interface IStylizedText {
   fontFamily: APP_FONTS;

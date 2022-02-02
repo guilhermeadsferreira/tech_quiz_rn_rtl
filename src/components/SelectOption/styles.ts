@@ -1,6 +1,5 @@
 import styled from "styled-components/native";
 import { Animated } from "react-native";
-import { POPPINS_400 } from "../../theme";
 
 export const Container = styled(Animated.View)`
   width: 90%;
@@ -12,10 +11,13 @@ export const Container = styled(Animated.View)`
 `;
 
 export const Label = styled.Text`
-  font-family: ${POPPINS_400};
   font-size: 16px;
   color: white;
   padding-left: 2px;
+
+  ${({ theme: { POPPINS_400 } }) => `
+    font-family: ${POPPINS_400};
+  `}
 `;
 
 export const TouchableSelect = styled.TouchableOpacity`

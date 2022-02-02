@@ -1,5 +1,4 @@
 import styled from "styled-components/native";
-import { POPPINS_400 } from "../../theme";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export const PageContainer = styled(SafeAreaView)`
@@ -45,7 +44,9 @@ export const WrapperOptions = styled.View`
 `;
 
 export const Question = styled.Text`
-  font-family: ${POPPINS_400};
+  ${({ theme: { POPPINS_400 } }) => `
+    font-family: ${POPPINS_400};
+  `}
   width: 95%;
   align-self: center;
   color: white;

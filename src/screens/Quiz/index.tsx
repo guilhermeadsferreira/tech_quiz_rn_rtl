@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { StackActions } from "@react-navigation/native";
+import { useNavigation, StackActions } from "@react-navigation/native";
 import TouchableOption from "../../components/TouchableOption";
 import {
   PageContainer,
@@ -12,14 +11,15 @@ import {
   HeaderQuiz,
   WrapperQuestion,
 } from "./styles";
-import { useMainContext } from "../../contexts/MainContext";
 import { maxLives } from "../../config";
 import { mustShuffleAnswers } from "../../utils/mustShuffleAnswers";
 import { mustGenerateRandomInt } from "../../utils/mustGenerateRandomInt";
 import { IQuizProgress } from "./types";
 import Answer from "./components/Answer";
-
-//END GAME QUANDO VIDAS ACABAREM, USUÁRIO ERRAR 3 VEZES
+import { useQuizStore } from "../../stores/quiz";
+import { useGlobalStore } from "../../stores/global";
+import EndGameModal from "../../components/EndGameModal";
+import shallow from "zustand/shallow";
 
 const initialArrayWithLives = Array(maxLives)
   .fill("")
@@ -31,7 +31,11 @@ const initialArrayWithLives = Array(maxLives)
 
 const Quiz: React.FC = () => {
   const navigation = useNavigation();
-  const { quizQuestions } = useMainContext();
+  const [showGameOverModal, setShowGameOverModal] = useGlobalStore(
+    (state) => [state.showGameOverModal, state.setShowGameOverModal],
+    shallow
+  );
+  const quizQuestions = useQuizStore((state) => state.quizQuestions);
   const [quizProgress, setQuizProgress] = useState<IQuizProgress>(
     {} as IQuizProgress
   );
@@ -76,12 +80,6 @@ const Quiz: React.FC = () => {
     [quizQuestions]
   );
 
-  // useEffect(() => {
-  //   if (quizProgress.numberOfLives === 0) {
-  //     console.log("Acabou o jogo");
-  //   }
-  // }, [quizProgress.numberOfLives]);
-
   const handleLives = (currentNumberOfLives: number) => {
     const arrayWithLives = Array(maxLives)
       .fill("")
@@ -95,13 +93,12 @@ const Quiz: React.FC = () => {
         return { path };
       });
 
-    console.log(arrayWithLives);
-
     setArrayWithLives(arrayWithLives);
   };
 
   return (
     <PageContainer>
+      <EndGameModal show={showGameOverModal} />
       <HeaderQuiz>
         <QuestionIndicator>{`Question ${quizProgress?.indexCurrentQuestion} / ${quizProgress?.numberOfQuestions}`}</QuestionIndicator>
         <TouchableOption
@@ -119,7 +116,6 @@ const Quiz: React.FC = () => {
           <Heart source={item.path} key={`index-${index}`} />
         ))}
       </WrapperHearts>
-      {console.log(quizProgress?.currentQuestion?.correct_answer)}
       <WrapperQuestion>
         <Question>{quizProgress?.currentQuestion?.question}</Question>
         {quizProgress?.currentQuestion?.answers?.map((item) => (
@@ -150,7 +146,7 @@ const Quiz: React.FC = () => {
               handleLives(currentNumberOfLives);
 
               if (currentNumberOfLives === 0) {
-                console.log("Acabou o jogo");
+                setShowGameOverModal(true);
                 return;
               }
 

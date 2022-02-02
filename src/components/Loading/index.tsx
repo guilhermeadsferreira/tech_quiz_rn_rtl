@@ -1,6 +1,7 @@
 import React from "react";
-import { ActivityIndicator, Modal } from "react-native";
+import { Modal } from "react-native";
 import { Container } from "./styles";
+import LottieView from "lottie-react-native";
 
 interface ILoading {
   show: boolean;
@@ -10,7 +11,15 @@ const Loading: React.FC<ILoading> = ({ show }) => {
   return (
     <Modal visible={show} animationType="slide">
       <Container>
-        <ActivityIndicator size="large" color="blue" />
+        <LottieView
+          source={require("../../assets/animations/loading.json")}
+          autoPlay
+          loop
+          style={{
+            height: 180,
+            width: 180,
+          }}
+        />
       </Container>
     </Modal>
   );

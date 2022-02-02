@@ -7,7 +7,6 @@ export default function useLoadResources() {
 
   React.useEffect(() => {
     (async () => {
-      console.log("useEffect: ", isLoadingComplete);
       try {
         await Font.loadAsync({
           ...Ionicons.font,

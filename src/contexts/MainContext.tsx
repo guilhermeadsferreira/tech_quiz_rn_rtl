@@ -1,28 +1,37 @@
-import React, { createContext } from "react";
-import useQuiz from "../hooks/useQuiz";
-import { IOption } from "../services/OpenTrivia/types";
+import React, { createContext, useEffect } from "react";
 import Loading from "../components/Loading";
-import { IQuiz } from "../services/OpenTrivia/types";
-import EndGameModal from "../components/EndGameModal";
+import shallow from "zustand/shallow";
+import { useQuizStore } from "../stores/quiz";
+import { useGlobalStore } from "../stores/global";
 
 interface IMainContext {
   loading: boolean;
-  categories: IOption[];
-  setUrlQuiz: (value: string) => void;
-  quizQuestions: IQuiz[];
 }
 
 const MainContext = createContext<IMainContext>({} as IMainContext);
 
 const MainContextProvider: React.FC = ({ children }) => {
-  const { loading, categories, setUrlQuiz, quizQuestions } = useQuiz();
+  const loading = useGlobalStore((state) => state.loading);
+  const [fetchCategories] = useQuizStore(
+    (state) => [state.fetchCategories],
+    shallow
+  );
+
+  useEffect(() => {
+    let mounted = true;
+
+    if (mounted) {
+      fetchCategories();
+    }
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
-    <MainContext.Provider
-      value={{ loading, categories, setUrlQuiz, quizQuestions }}
-    >
+    <MainContext.Provider value={{ loading }}>
       <Loading show={loading} />
-      <EndGameModal />
       {children}
     </MainContext.Provider>
   );

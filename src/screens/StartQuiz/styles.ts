@@ -1,12 +1,13 @@
 import styled from "styled-components/native";
-import { POPPINS_400 } from "../../theme";
 
 export const Container = styled.ScrollView`
   flex: 1;
 `;
 
 export const Title = styled.Text`
-  font-family: ${POPPINS_400};
+  ${({ theme: { POPPINS_400 } }) => `
+    font-family: ${POPPINS_400};
+  `}
   font-size: 22px;
   color: white;
   text-align: center;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IOption } from "../../services/OpenTrivia/types";
@@ -11,17 +11,21 @@ import {
   arrayTypes,
   queryParams,
 } from "../../config";
-import { MainContext } from "../../contexts/MainContext";
 import { mustMountQuizURL } from "../../utils/mustMountQuizURL";
 import { Container, Title } from "./styles";
-import { APP_PRIMARY_COLOR } from "../../config/theme";
+import { APP_PRIMARY_COLOR } from "../../config/theme/colors";
+import { useQuizStore } from "../../stores/quiz";
+import shallow from "zustand/shallow";
 
 interface IStartQuiz {
   navigation?: any;
 }
 
 const StartQuiz: React.FC<IStartQuiz> = ({ navigation }) => {
-  const { categories, setUrlQuiz } = useContext(MainContext);
+  const [categories, fetchQuizQuestions] = useQuizStore(
+    (state) => [state.categories, state.fetchQuizQuestions],
+    shallow
+  );
   const [numberOfQuestions, setNumberOfQuestions] = useState<IOption>({
     id: "10",
     name: "10",
@@ -42,7 +46,7 @@ const StartQuiz: React.FC<IStartQuiz> = ({ navigation }) => {
       const queryParam = `${getQueryParamName}=${String(item.id)}`;
       url = mustMountQuizURL(url, queryParam);
     });
-    setUrlQuiz(url);
+    fetchQuizQuestions(url);
     navigation.navigate("Quiz");
   };
 
